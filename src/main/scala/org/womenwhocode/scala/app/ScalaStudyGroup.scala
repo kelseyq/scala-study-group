@@ -10,7 +10,7 @@ class ScalaStudyGroup extends ScalaStudyGroupStack {
       <body>
         <center>
         	<h1><blink>Hello, world!</blink></h1>
-        	<center><img src="http://www.foodtruckcourt.com/img/fewdtruck.png"/></center>
+          <center><img src="/images/fewdtruck.png"/></center>
         	<hr/>
       		<p>
        			It's {Calendar.getInstance().getTime()} and the Women Who Code Scala study group still rocks!
@@ -21,7 +21,7 @@ class ScalaStudyGroup extends ScalaStudyGroupStack {
        </center>
       </body>
     </html>
-  }  
+  }
 
   get("/trucks") {
   	<html>
@@ -36,8 +36,8 @@ class ScalaStudyGroup extends ScalaStudyGroupStack {
   		<body>
   		<form method="post" action="trucks/new">
   			Name: <input type="text" name="truckName"/><br/>
-  			Address: <input type="text" name="address"/><br/> 
-  			Type: 
+        Address: <input type="text" name="address"/><br/>
+        Type:
 <select name="cuisine">
   <option>Milk</option>
   <option>Coffee</option>
