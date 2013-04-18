@@ -64,6 +64,7 @@ jrebel.lic
 *.iws
 .*.sw?
 .idea
+!.idea/RunConfigurations/*
 
 # paulp script
 /.lib/
