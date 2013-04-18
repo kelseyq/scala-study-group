@@ -6,62 +6,38 @@ import java.util.Calendar
 class ScalaStudyGroup extends ScalaStudyGroupStack {
 
   get("/") {
-    <html>
-      <body>
-        <center>
-        	<h1><blink>Hello, world!</blink></h1>
-          <center><img src="/images/fewdtruck.png"/></center>
-        	<hr/>
-      		<p>
-       			It's {Calendar.getInstance().getTime()} and the Women Who Code Scala study group still rocks!
-      		</p>
-      		<p>
-      			<a href="/trucks">Food Truck List!!!! YEA!</a>
-      		</p>
-       </center>
-      </body>
-    </html>
+    contentType="text/html"
+    val now = Calendar.getInstance().getTime()
+    ssp("/index", "rightNow" -> now)
   }
 
   get("/trucks") {
-  	<html>
-  		<body>
-  		<h2>The first truck is...</h2>
-  		{
-  		    val theTruck = FoodTruckData.getAllFoodTrucks(0) 
-  			//pattern matching on a case class
-  		    theTruck.cuisineType match {
-  		    	case Tacos => <p>Mexican!</p>
-  		    	case Indian => <p>Indian!</p>
-  		    	case _ => <p>Something else!</p>
-  		    }
-  		}
-  		<h2>Is it tacos?</h2>
-  		<ul>
-  		{
+    contentType="text/html"
+    val theTruck = FoodTruckData.getAllFoodTrucks(0)
 
-  			//map and an anonymous function
-  	      FoodTruckData.getAllFoodTrucks.map{
-  	      		//using pattern matching to extract members
-  	      		theTruck: FoodTruck => theTruck match {
-  	      			case FoodTruck(theName, Tacos, _, _) => <li>{theName}! Eff yeah!</li>
-  	      			case _ => <li>{theTruck.name} (not tacos)</li>
-  	      		}
-  	      	}
-		}
-		</ul>
-		<h2>Just one truck</h2>
-		{
-			val myList = FoodTruckData.getAllFoodTrucks
-			//pattern matching on a list
-			myList match {
-				case firstTruck::restOfTheTrucks => <li>{firstTruck.name}</li>
-				case _ => <li>no trucks sorry!</li>
-			}
+    //pattern matching on a case class
+    val firstTruck = theTruck.cuisineType match {
+      case Tacos => "Mexican!"
+      case Indian => "Indian!"
+      case _ => "Something else!"
+    }
 
-  		}
-  		</body>
-  	</html>
+    //map and an anonymous function
+    val tacoList = FoodTruckData.getAllFoodTrucks.map{
+      //using pattern matching to extract members
+      theTruck: FoodTruck => theTruck match {
+        case FoodTruck(theName, Tacos, _, _) => theName + " Eff yeah!"
+        case _ => theTruck.name + " (not tacos)"
+      }
+    }
+
+    val myList = FoodTruckData.getAllFoodTrucks
+    //pattern matching on a list
+    val justOneTruck = myList match {
+      case truckOne::restOfTheTrucks => truckOne.name
+      case _ => "no trucks sorry!"
+    }
+    ssp("/trucks", "firstTruck" -> firstTruck, "tacoList" -> tacoList, "justOneTruck" -> justOneTruck)
   }
 
   get("/trucks/new") {

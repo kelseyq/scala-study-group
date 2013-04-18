@@ -1,0 +1,21 @@
+<%@ val firstTruck: String %>
+<%@ val tacoList: List[String] %>
+<%@ val justOneTruck: String %>
+
+<html>
+    <head>
+        <title>The Trucks</title>
+    </head>
+    <body>
+        <h2>The first truck is...</h2>
+        <p> ${ firstTruck }</p>
+    <h2>Is it tacos?</h2>
+        <ul>
+            #for (i <- tacoList)
+            <li>${i}</li>
+            #end
+        </ul>
+    <h2>Just one truck</h2>
+        <p>${ justOneTruck }</p>
+    </body>
+</html>

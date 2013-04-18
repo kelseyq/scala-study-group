@@ -1,0 +1,21 @@
+<% import java.util.Date._  %>
+<%@ var rightNow: java.util.Date %>
+
+<html>
+<head>
+    <title>Scala Study Group Food Truck Madness</title>
+</head>
+<body>
+<center>
+    <h1><blink>Hello, world!</blink></h1>
+    <center><img src="/images/fewdtruck.png"/></center>
+    <hr/>
+    <p>
+        It's ${ rightNow } and the Women Who Code Scala study group still rocks!
+    </p>
+    <p>
+        <a href="/trucks">Food Truck List!!!! YEA!</a>
+    </p>
+</center>
+</body>
+</html>
