@@ -37,7 +37,40 @@ class ScalaStudyGroup extends ScalaStudyGroupStack {
       case truckOne::restOfTheTrucks => truckOne.name
       case _ => "no trucks sorry!"
     }
-    ssp("/trucks", "firstTruck" -> firstTruck, "tacoList" -> tacoList, "justOneTruck" -> justOneTruck)
+   // ssp("/trucks", "firstTruck" -> firstTruck, "tacoList" -> tacoList, "justOneTruck" -> justOneTruck)
+
+    val days: List[Day] = List(Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)
+    val foodTrucks = FoodTruckData.getAllFoodTrucks
+    var listOfTrucksByDay = List[String]()
+    val colors = List("blue", "yellow", "orange")
+
+    val theAvailabilityList: List[String] = colors.flatMap{
+      colors: String => days.flatMap {
+        theDay: Day => foodTrucks.map {
+          truck: FoodTruck =>
+            if (theTruck.days.contains(theDay)) {
+              truck.name + " is available on " + theDay
+            }  else {
+              truck.name + " is not available on " + theDay
+            }
+        }
+      }
+    }
+
+    val availabilityList: List[String] = for {
+      color <- colors
+      day <- days
+      truck <- foodTrucks
+    } yield {
+      if (truck.days.contains(day)) {
+        truck.name + " is available on " + day + " in " + color
+      }  else {
+        truck.name + " is not available on " + day + " in " + color
+      }
+    }
+
+
+    ssp("/trucks", "availability" -> availabilityList)
   }
 
   get("/trucks/new") {
