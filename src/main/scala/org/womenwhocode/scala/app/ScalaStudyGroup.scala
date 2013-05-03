@@ -92,14 +92,18 @@ class ScalaStudyGroup extends ScalaStudyGroupStack {
     }
 
     val addressOpt: Option[String] = params.get("address").filter{param => isNotEmpty(param)}
-    val nameOpt: Option[String] = params.get("name").filter{param => isNotEmpty(param)}
+    val nameOpt: Option[String] = params.get("truckName").filter{param => isNotEmpty(param)}
+    val cuisineOpt: Option[String] = params.get("cuisine").filter{param => isNotEmpty(param)}
 
     val intOpt: Option[Int] = Some(4)
     val foodTruckOpt: Option[FoodTruck] = Some(FoodTruckData.foodTruckList(0))
 
-
-    if (addressOpt.isDefined && nameOpt.isDefined) {
-      val newTruck = FoodTruck(name = nameOpt.getOrElse("No name provided"), address = addressOpt.get)
+    val result = for {
+      theName <- nameOpt
+      theAddress <- addressOpt
+  //    theCuisine <- cuisineOpt
+    } yield {
+      val newTruck = FoodTruck(name = theName, address = theAddress)
       FoodTruckData.foodTruckList = newTruck :: FoodTruckData.foodTruckList
       <html>
         <head>
@@ -117,7 +121,9 @@ class ScalaStudyGroup extends ScalaStudyGroupStack {
           </ul>
         </body>
       </html>
-    } else {
+    }
+
+    result.getOrElse {
       <html>
         <head>
           <title>Oops!</title>
