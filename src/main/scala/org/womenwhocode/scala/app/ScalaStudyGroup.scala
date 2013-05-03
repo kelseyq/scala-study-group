@@ -76,26 +76,47 @@ class ScalaStudyGroup extends ScalaStudyGroupStack {
   get("/trucks/new") {
   	<html>
   		<body>
-  		<form method="post" action="trucks/new">
+  		<form method="post" action="/trucks/new">
   			Name: <input type="text" name="truckName"/><br/>
         Address: <input type="text" name="address"/><br/>
-        Type:
-<select name="cuisine">
-  <option>Milk</option>
-  <option>Coffee</option>
-  <option>Tea</option>
-</select><br/>
-			Days: <input type="checkbox" name="monday" value="Monday"/> Monday<br/>
-			<input type="checkbox" name="monday" value="Monday"/>Tuesday<br/>
-			<input type="checkbox" name="monday" value="Monday"/>Wednesday<br/>
-			<input type="checkbox" name="monday" value="Monday"/>Thursday<br/>
-			<input type="checkbox" name="monday" value="Monday"/>Friday<br/>
-			<input type="checkbox" name="monday" value="Monday"/>Saturday<br/>
-			<input type="checkbox" name="monday" value="Monday"/>Sunday<br/>
-
+        <input type="submit"/>
   		</form>
   		</body>
   	</html>
+  }
+
+  post("/trucks/new") {
+    val addressOpt: Option[String] = params.get("address")
+    val nameOpt: Option[String] = params.get("name")
+
+    val intOpt: Option[Int] = Some(4)
+    val foodTruckOpt: Option[FoodTruck] = Some(FoodTruckData.foodTruckList(0))
+
+    if (addressOpt.isDefined && nameOpt.isDefined)  {
+      val newTruck = FoodTruck(name = addressOpt.get, address = nameOpt.get)
+      FoodTruckData.foodTruckList = newTruck :: FoodTruckData.foodTruckList
+      <html>
+        <head>
+          <title>Edited Truck List</title>
+        </head>
+        <body>
+          <ul>
+            {
+            for {
+              truck <- FoodTruckData.foodTruckList
+            } yield {
+              <li>{truck.name}</li>
+            }
+            }
+          </ul>
+        </body>
+      </html>
+    } else {
+      <html>
+      </html>
+    }
+
+
   }
 
 }

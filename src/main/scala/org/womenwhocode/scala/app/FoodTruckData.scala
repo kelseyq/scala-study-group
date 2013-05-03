@@ -8,13 +8,14 @@ object FoodTruckData {
 	val RoliRoti = FoodTruck("RoliRoti", BBQ, "123 Fake St", List(Friday, Saturday))
 	val RoachCoach = FoodTruck("Ye Olde Roach Coach", Tacos, "123 Fake St", List(Thursday, Saturday))
 	val TandooriUSA = FoodTruck("Tandoori USA", Indian, "505 Anywhere Dr", List(Monday, Wednesday))
+  val LouieCrabShack = FoodTruck("Louie's Crab Shack", address = "Some fake St")
 
-	val foodTruckList = List[FoodTruck](MayoMustard, CurryUpNow, BaconBacon, ChairmanBao, RoliRoti, RoachCoach, TandooriUSA)
+	var foodTruckList = List[FoodTruck](MayoMustard, CurryUpNow, BaconBacon, ChairmanBao, RoliRoti, RoachCoach, TandooriUSA)
 
 	def getAllFoodTrucks: List[FoodTruck] = foodTruckList
 }
 
-case class FoodTruck(name: String, cuisineType: TruckType, address: String, days: List[Day])
+case class FoodTruck(name: String, cuisineType: TruckType = Other, address: String, days: List[Day] = List(Monday))
 
 sealed trait Day
 case object Monday extends Day
@@ -33,3 +34,7 @@ case object Chinese extends TruckType
 case object BBQ extends TruckType
 case object Deli extends TruckType
 case object Other extends TruckType
+
+//sealed trait Option
+//case class Some(value: String) extends Option
+//case class None() extends Option
