@@ -74,7 +74,8 @@ class ScalaStudyGroup extends ScalaStudyGroupStack {
   }
 
   get("/trucks/new") {
-  	<html>
+
+ 	<html>
   		<body>
   		<form method="post" action="/trucks/new">
   			Name: <input type="text" name="truckName"/><br/>
@@ -86,14 +87,19 @@ class ScalaStudyGroup extends ScalaStudyGroupStack {
   }
 
   post("/trucks/new") {
-    val addressOpt: Option[String] = params.get("address")
-    val nameOpt: Option[String] = params.get("name")
+    def isNotEmpty(theString: String): Boolean = {
+       theString.length != 0
+    }
+
+    val addressOpt: Option[String] = params.get("address").filter{param => isNotEmpty(param)}
+    val nameOpt: Option[String] = params.get("name").filter{param => isNotEmpty(param)}
 
     val intOpt: Option[Int] = Some(4)
     val foodTruckOpt: Option[FoodTruck] = Some(FoodTruckData.foodTruckList(0))
 
-    if (addressOpt.isDefined && nameOpt.isDefined)  {
-      val newTruck = FoodTruck(name = addressOpt.get, address = nameOpt.get)
+
+    if (addressOpt.isDefined && nameOpt.isDefined) {
+      val newTruck = FoodTruck(name = nameOpt.getOrElse("No name provided"), address = addressOpt.get)
       FoodTruckData.foodTruckList = newTruck :: FoodTruckData.foodTruckList
       <html>
         <head>
@@ -113,6 +119,12 @@ class ScalaStudyGroup extends ScalaStudyGroupStack {
       </html>
     } else {
       <html>
+        <head>
+          <title>Oops!</title>
+        </head>
+        <body>
+          Please enter a valid truck.
+        </body>
       </html>
     }
 

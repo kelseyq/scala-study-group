@@ -36,5 +36,6 @@ case object Deli extends TruckType
 case object Other extends TruckType
 
 //sealed trait Option
-//case class Some(value: String) extends Option
+//case class Some(value: Int) extends Option
 //case class None() extends Option
+
